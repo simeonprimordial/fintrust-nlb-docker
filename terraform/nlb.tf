@@ -5,8 +5,8 @@
 resource "aws_lb_target_group" "web_target_group" {
 
   name     = "${var.project_name}-tg"
-  port     = var.web_port
-  protocol = "HTTP"
+  port     = var.target_port
+  protocol = "TCP"
 
   vpc_id = data.aws_vpc.default.id
 
@@ -35,27 +35,23 @@ resource "aws_lb_target_group" "web_target_group" {
 }
 
 ############################################
-# Application Load Balancer
+# Network Load Balancer
 ############################################
 
-resource "aws_lb" "application_load_balancer" {
+resource "aws_lb" "network_load_balancer" {
 
-  name = "${var.project_name}-alb"
+  name = "${var.project_name}-nlb"
 
   internal = false
 
-  load_balancer_type = "application"
-
-  security_groups = [
-    aws_security_group.alb_sg.id
-  ]
+  load_balancer_type = "network"
 
   subnets = data.aws_subnets.default.ids
 
   enable_deletion_protection = false
 
   tags = {
-    Name = "Web ALB"
+    Name = "FinTrust NLB"
   }
 }
 
@@ -65,11 +61,11 @@ resource "aws_lb" "application_load_balancer" {
 
 resource "aws_lb_listener" "http" {
 
-  load_balancer_arn = aws_lb.application_load_balancer.arn
+  load_balancer_arn = aws_lb.network_load_balancer.arn
 
-  port = var.web_port
+  port = var.listener_port
 
-  protocol = "HTTP"
+  protocol = "TCP"
 
   default_action {
 

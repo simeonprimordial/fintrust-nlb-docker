@@ -1,23 +1,39 @@
 #!/bin/bash
 
+# Update the system
 dnf update -y
 
-dnf install -y httpd
+# Install Git
+dnf install -y git
 
-systemctl enable httpd
+# Install Docker
+dnf install -y docker
 
-systemctl start httpd
+# Enable and start Docker
+systemctl enable docker
+systemctl start docker
 
-cat <<EOF > /var/www/html/index.html
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Highly Available Web App</title>
-</head>
-<body style="font-family: Arial; text-align:center; margin-top:50px;">
-    <h1>Highly Available Web Application</h1>
-    <h2>Provisioned with Terraform</h2>
-    <p><strong>Hostname:</strong> $(hostname -f)</p>
-</body>
-</html>
-EOF
+# Allow ec2-user to use Docker
+usermod -aG docker ec2-user
+
+# Clone the repository
+cd /home/ec2-user
+
+git clone https://github.com/simeonprimordial/fintrust-nlb-docker.git
+
+cd fintrust-nlb-docker
+
+# Build Docker image
+docker build \
+-f docker/Dockerfile \
+-t fintrust-status-service:1.0 .
+
+# Run Docker container
+docker run -d \
+--name fintrust-app \
+-p 5000:5000 \
+--restart unless-stopped \
+fintrust-status-service:1.0
+
+# Fix ownership
+chown -R ec2-user:ec2-user /home/ec2-user/fintrust-nlb-docker

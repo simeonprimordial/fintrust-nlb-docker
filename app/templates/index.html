@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinTrust Status Service</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🏦 FinTrust Status Service</h1>
+
+    <div class="status">
+        <span class="green-dot"></span>
+        Application Running
+    </div>
+
+    <table>
+
+        <tr>
+            <td>Hostname</td>
+            <td>{{ hostname }}</td>
+        </tr>
+
+        <tr>
+            <td>Instance ID</td>
+            <td>{{ instance_id }}</td>
+        </tr>
+
+        <tr>
+            <td>Private IP</td>
+            <td>{{ private_ip }}</td>
+        </tr>
+
+        <tr>
+            <td>Availability Zone</td>
+            <td>{{ availability_zone }}</td>
+        </tr>
+
+        <tr>
+            <td>Region</td>
+            <td>{{ region }}</td>
+        </tr>
+
+        <tr>
+            <td>Current UTC Time</td>
+            <td>{{ current_time }}</td>
+        </tr>
+
+    </table>
+
+</div>
+
+</body>
+</html>

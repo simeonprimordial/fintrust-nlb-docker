@@ -7,7 +7,7 @@ variable "aws_region" {
 variable "project_name" {
   description = "Project name used for resource naming"
   type        = string
-  default     = "highly-available-web-app"
+  default     = "fintrust-nlb-docker"
 }
 
 variable "environment" {
@@ -19,7 +19,7 @@ variable "environment" {
 variable "instance_type" {
   description = "EC2 instance type"
   type        = string
-  default     = "t2.micro"
+  default     = "t3.micro"
 }
 
 variable "key_pair_name" {
@@ -27,10 +27,16 @@ variable "key_pair_name" {
   type        = string
 }
 
-variable "web_port" {
-  description = "HTTP port"
+variable "listener_port" {
+  description = "Network Load Balancer listener port"
   type        = number
   default     = 80
+}
+
+variable "target_port" {
+  description = "Port the Flask application listens on"
+  type        = number
+  default     = 5000
 }
 
 variable "ssh_port" {
