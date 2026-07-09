@@ -14,7 +14,7 @@ resource "aws_lb_target_group" "web_target_group" {
 
     enabled = true
 
-    path = "/"
+    path = "/health"
 
     protocol = "HTTP"
 

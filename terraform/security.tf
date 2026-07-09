@@ -8,13 +8,13 @@ resource "aws_security_group" "ec2_sg" {
   vpc_id      = data.aws_vpc.default.id
 
 
-ingress {
-  description = "Flask application from NLB"
-  from_port   = var.target_port
-  to_port     = var.target_port
-  protocol    = "tcp"
-  cidr_blocks = ["0.0.0.0/0"]
-}
+  ingress {
+    description = "Flask application from NLB"
+    from_port   = var.target_port
+    to_port     = var.target_port
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 
   ingress {
     description = "SSH from my IP"
